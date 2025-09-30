@@ -81,7 +81,7 @@ function App() {
   })
   const [studyEmoji, setStudyEmoji] = useState<string>('😊')
   const [currentDate, setCurrentDate] = useState(new Date())
-  const [activeTab, setActiveTab] = useState<'progress' | 'study' | 'calendar' | 'exams' | 'schedule'>('progress')
+  const [activeTab, setActiveTab] = useState<'progress' | 'study' | 'calendar' | 'exams' | 'schedule' | 'week'>('progress')
   
   // 絵文字の選択肢とその意味
   const emojiOptions = [
@@ -97,7 +97,6 @@ function App() {
   
   // 模擬試験用の状態
   const [examSubject, setExamSubject] = useState<string>('')
-  const [examScore, setExamScore] = useState<number>(0)
   const [totalQuestions, setTotalQuestions] = useState<number>(0)
   const [correctAnswers, setCorrectAnswers] = useState<number>(0)
   const [timeSpent, setTimeSpent] = useState<number>(0)
@@ -112,8 +111,6 @@ function App() {
     const day = String(today.getDate()).padStart(2, '0')
     return `${year}-${month}-${day}`
   })
-  const [scheduleStartTime, setScheduleStartTime] = useState<string>('09:00')
-  const [scheduleEndTime, setScheduleEndTime] = useState<string>('10:00')
   const [scheduleDescription, setScheduleDescription] = useState<string>('')
   const [scheduleSubject, setScheduleSubject] = useState<string>('1')
 
@@ -293,7 +290,6 @@ function App() {
     const year = currentDate.getFullYear()
     const month = currentDate.getMonth()
     const firstDay = new Date(year, month, 1)
-    const lastDay = new Date(year, month + 1, 0)
     const startDate = new Date(firstDay)
     startDate.setDate(startDate.getDate() - firstDay.getDay())
     
@@ -357,20 +353,6 @@ function App() {
     setShowDateDetail(true)
   }
 
-  // 選択された日付のデータを取得
-  const getSelectedDateData = () => {
-    if (!selectedDate) return null
-    
-    const dayStudySessions = studySessions.filter(session => session.date === selectedDate)
-    const daySchedules = schedules.filter(schedule => schedule.date === selectedDate)
-    const dayExams = mockExams.filter(exam => exam.date === selectedDate)
-    
-    return {
-      studySessions: dayStudySessions,
-      schedules: daySchedules,
-      exams: dayExams
-    }
-  }
 
   // 予定を追加
   const addSchedule = () => {
